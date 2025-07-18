@@ -1,0 +1,49 @@
+import { useState, useEffect } from 'react';
+import { EngineData, Fault, HistoricalData } from '../types/engine';
+
+export const useEngineData = () => {
+  const [engines, setEngines] = useState<EngineData[]>([]);
+  const [faults, setFaults] = useState<Fault[]>([]);
+  const [historicalData, setHistoricalData] = useState<HistoricalData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Generate realistic engine data
+  const generateEngineData = (): EngineData[] => {
+    const engineModels = ['CFM56-7B', 'V2500', 'PW1100G', 'GE90-115B'];
+    const baseData = [
+      { temp: 650, pressure: 45, vibration: 0.8, rpm: 12500, fuel: 2500, oil: 65, egt: 750, thrust: 24500 },
+      { temp: 680, pressure: 42, vibration: 1.2, rpm: 12800, fuel: 2800, oil: 62, egt: 780, thrust: 26000 },
+      { temp: 620, pressure: 48, vibration: 0.6, rpm: 12200, fuel: 2200, oil: 68, egt: 720, thrust: 23000 },
+      { temp: 705, pressure: 38, vibration: 1.8, rpm: 13200, fuel: 3200, oil: 58, egt: 820, thrust: 28000 },
+    ];
+
+    return Array.from({ length: 4 }, (_, i) => {
+      const base = baseData[i];
+      const variation = () => (Math.random() - 0.5) * 0.1;
+      
+      let status: 'healthy' | 'warning' | 'critical' = 'healthy';
+      let healthScore = 95;
+      
+      // Introduce some realistic variations
+      if (i === 1) {
+        status = 'warning';
+        healthScore = 78;
+      } else if (i === 3) {
+        status = 'critical';
+        healthScore = 65;
+      }
+
+      return {
+        id: `engine-${i + 1}`,
+        name: `Engine ${i + 1}`,
+        model: engineModels[i],
+        status,
+        temperature: base.temp + (base.temp * variation()),
+        pressure: base.pressure + (base.pressure * variation()),
+        vibration: base.vibration + (base.vibration * variation()),
+        rpm: base.rpm + (base.rpm * variation()),
+        fuelFlow: base.fuel + (base.fuel * variation()),
+        oilPressure: base.oil + (base.oil * variation()),
+        exhaustGasTemp: base.egt + (base.egt * variation()),
+        thrust: base.thrust + (base.thrust * variation()),
+};
