@@ -1,0 +1,29 @@
+import React from 'react';
+          <div className="bg-red-900 border border-red-500 rounded p-4">
+            <div className="flex items-start space-x-3">
+              <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5" />
+              <div className="flex-1">
+                <h4 className="text-white font-semibold mb-1">Active Fault Detected</h4>
+                <p className="text-red-200 mb-2">{fault.description}</p>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-red-300">Probability: {(fault.probability * 100).toFixed(0)}%</p>
+                    <p className="text-red-300">Category: {fault.category}</p>
+                  </div>
+                  <div>
+                    <p className="text-red-300">Repair Time: {fault.estimatedRepairTime}h</p>
+                    <p className="text-red-300">Parts Cost: ${fault.partsCost.toLocaleString()}</p>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center space-x-2">
+                  <Wrench className="w-4 h-4 text-red-400" />
+                  <p className="text-red-200 text-sm">{fault.recommendation}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
