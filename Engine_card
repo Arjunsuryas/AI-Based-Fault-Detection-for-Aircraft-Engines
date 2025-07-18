@@ -1,0 +1,25 @@
+import React from 'react';
+import { EngineData } from '../types/engine';
+import { AlertTriangle, CheckCircle, XCircle, Settings, Clock } from 'lucide-react';
+
+interface EngineCardProps {
+  engine: EngineData;
+  onClick: () => void;
+}
+
+export const EngineCard: React.FC<EngineCardProps> = ({ engine, onClick }) => {
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'healthy':
+        return <CheckCircle className="w-5 h-5 text-green-400" />;
+      case 'warning':
+        return <AlertTriangle className="w-5 h-5 text-yellow-400" />;
+      case 'critical':
+        return <XCircle className="w-5 h-5 text-red-400" />;
+      default:
+        return <Settings className="w-5 h-5 text-gray-400" />;
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+};
